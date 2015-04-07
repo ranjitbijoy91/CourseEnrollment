@@ -1,0 +1,22 @@
+<div>
+	<form action="" method="get" accept-charset="utf-8">
+	<input type="search" name="studentSearch"></input>
+	<input type="submit" value="Search"></input><br/><br/>
+	<select class="selectStudentNameForPref" size="3" ng-model="spCtrl.selectedStudent" ng-options="item.name for item in spCtrl.stuff" ng-change="spCtrl.populateStudentPrefs()">
+		<option value="">Select Student</option>
+	</select>
+	</form>
+</div>
+<br/>
+<div>
+	<table class="selectStudentNameForPref" border="1">
+    <tr>
+      <th><a href="" ng-click="predicate = 'datetime'; spCtrl.reverse=!spCtrl.reverse">DateTime</a></th>
+      <th><a href="" ng-click="predicate = 'preferences'; spCtrl.reverse=!spCtrl.reverse">Preferences</a></th>
+    </tr>
+    <tr ng-repeat="entry in spCtrl.testData | orderBy:predicate:spCtrl.reverse">
+      <td>{{entry.datetime}}</td>
+      <td>{{entry.preference}}</td>
+    </tr>
+  </table>
+</div>

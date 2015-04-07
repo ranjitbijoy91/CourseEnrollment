@@ -1,0 +1,18 @@
+<div>
+	<select class="selectStudentNameForPref" size="5" ng-model="phCtrl.selectedSemester" ng-options="item.name for item in phCtrl.semesters" ng-change="phCtrl.populateStats()">
+		<option value="">Select Semester</option>
+	</select>
+</div>
+<br/>
+<div>
+	<table class="selectStudentNameForPref" border="1">
+		<tr>
+			<th>Statistics</th>
+			<th>Value</th>
+		</tr>
+		<tr ng-repeat="entry in phCtrl.testData">
+			<td>{{entry.stat}}</td>
+			<td>{{entry.value}}</td>
+		</tr>
+	</table>
+</div>

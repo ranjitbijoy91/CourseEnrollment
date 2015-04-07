@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html ng-app="admin">
+<head>
+    <title>Project 4</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/my.css" rel="stylesheet">
+
+</head>
+<body ng-controller="AdminPanelController as apc">
+    <script src="js/angular.min.js" type="text/javascript" ></script>
+    <script src="js/app.js" type="text/javascript" ></script>
+    <script ng-autobind src="js/admin.js" type="text/javascript" ></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" >
+                    Hello, Administator!
+                </a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a ng-click="apc.setTab(0)">Change Settings</a>
+                    </li>
+                    <li>
+                        <a ng-click="apc.setTab(1)">Student Preferences</a>
+                    </li>
+                    <li>
+                        <a ng-click="apc.setTab(2)">Preference History</a>
+                    </li>
+                    <li>
+                    <a ng-click="apc.setTab(3)">Recommendation History</a>
+                    </li>
+
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+        <div >
+            <div class="cp" ng-show="apc.isSelected(0)">
+                <change-settings></change-settings>
+            </div>
+            <div class="vrc" ng-show="apc.isSelected(1)">
+                <student-preferences></student-preferences>
+            </div>
+            <div class="hd" ng-show="apc.isSelected(2)">
+                <prefs-history></prefs-history>
+            </div>
+            <div class="rh" ng-show="apc.isSelected(3)">
+                <recommendation-history></recommendation-history>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+
+
+
+</body>
+
+</html>

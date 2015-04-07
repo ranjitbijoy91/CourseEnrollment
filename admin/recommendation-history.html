@@ -1,0 +1,18 @@
+<div>
+	<select class="selectStudentNameForPref" size="5" ng-model="rhCtrl.selectedDate" ng-options="item.name for item in rhCtrl.dates" ng-change="rhCtrl.populateRecs()">
+		<option value="">Select Date</option>
+	</select>
+</div>
+<br/>
+<div>
+	<table class="selectStudentNameForPref" border="1">
+		<tr>
+			<th>Recommendation</th>
+			<th>Chance</th>
+		</tr>
+		<tr ng-repeat="entry in rhCtrl.recs">
+			<td>{{entry.rec}}</td>
+			<td>{{entry.chance}}</td>
+		</tr>
+	</table>
+</div>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html ng-app="student">
+<head>
+    <title>Project 4</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/my.css" rel="stylesheet">
+
+</head>
+<body ng-controller="StudentPanelController as spc">
+    <script src="js/angular.min.js" type="text/javascript" ></script>
+    <script src="js/app.js" type="text/javascript" ></script>
+    <script src="js/student.js" type="text/javascript" ></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" >
+                    Hello, Student!
+                </a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a ng-click="spc.setTab(0)">Class Preferences</a>
+                    </li>
+                    <li>
+                        <a ng-click="spc.setTab(1)">View Recommended Courses</a>
+                    </li>
+                    <li>
+                        <a ng-click="spc.setTab(2)">Historal Data</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+        <div >
+            <div class="cp" ng-show="spc.isSelected(0)">
+                <class-preferences></class-preferences>
+            </div>
+            <div class="vrc" ng-show="spc.isSelected(1)">
+                <recommended-courses></recommended-courses>
+            </div>
+            <div class="hd" ng-show="spc.isSelected(2)">
+                <historical-data></historical-data>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+
+   
+
+</body>
+
+</html>
