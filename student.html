@@ -4,6 +4,7 @@
     <title>Project 4</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/my.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
 
 </head>
 <body ng-controller="StudentPanelController as spc">
@@ -19,7 +20,6 @@
                     Hello, Student!
                 </a>
             </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
@@ -33,12 +33,8 @@
                     </li>
                 </ul>
             </div>
-            <!-- /.navbar-collapse -->
         </div>
-        <!-- /.container -->
     </nav>
-
-    <!-- Page Content -->
     <div class="container">
         <div >
             <div class="cp" ng-show="spc.isSelected(0)">
@@ -52,10 +48,6 @@
             </div>
         </div>
     </div>
-    <!-- /.container -->
-
-   
-
 </body>
 
 </html>
