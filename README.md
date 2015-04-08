@@ -1,4 +1,6 @@
 # CourseEnrollment
+After downloading the code, you will need to complete the steps below.
+
 In order for any http requests to successfully send requests, you need to run a local npmjs http-server, rather than opening up the html files directly in your browser. Setup steps can be found here: 
 https://www.npmjs.com/package/http-server
 
