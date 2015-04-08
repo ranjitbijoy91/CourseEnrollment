@@ -80,39 +80,23 @@ var app = angular.module('student', ['ui.bootstrap']);
               //http get request
             };
 
-            ctrl.menu = [];
-            $http.get('/testjson/testHD.json').success(function(data){
-              ctrl.menu = data;
-            });
-
-
-            ctrl.oneAtATime = true;
-
             ctrl.groups = [
             {
-              title: 'Dynamic Group Header - 1',
-              content: 'Dynamic Group Body - 1'
+              title: "Dynamic Group Header - 1",
+              items: [{"item-title": "item 1"}, {"item-title": "item 2"}]
             },
             {
-              title: 'Dynamic Group Header - 2',
-              content: 'Dynamic Group Body - 2'
+              title: "Dynamic Group Header - 2",
+              items: [{"item-title": "item 3"}, {"item-title": "item 4"}]
             }
             ];
 
-            ctrl.items = ['Item 1', 'Item 2', 'Item 3'];
 
-            ctrl.addItem = function() {
-              var newItemNo = $scope.items.length + 1;
-              $scope.items.push('Item ' + newItemNo);
-            };
-
-            ctrl.status = {
-              isFirstOpen: true,
-              isFirstDisabled: false
-            };
-
-
-
+            ctrl.menu = [];
+            $http.get('/testjson/testH.json').success(function(data){
+              ctrl.menu = data;
+              console.log(ctrl.menu);
+            });
           }],
           controllerAs: 'hdCtrl'
         };

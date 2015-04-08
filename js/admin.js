@@ -33,9 +33,9 @@ var app = angular.module('admin', []);
           templateUrl: 'admin/student-preferences.html',
           controller: ['$http', function($http){
             var ctrl = this;
-            ctrl.stuff = [];
-            $http.get('/testjson/test.json').success(function(data){
-              ctrl.stuff = data;
+            ctrl.students = [];
+            $http.get('http://cs6310.duckdns.org:5001/students').success(function(data){
+              ctrl.students = data;
             });
             ctrl.populateStudentPrefs = function(){
               console.log(ctrl.selectedStudent.name);

@@ -2,7 +2,7 @@
 	<form action="" method="get" accept-charset="utf-8">
 	<input type="search" name="studentSearch"></input>
 	<input type="submit" value="Search"></input><br/><br/>
-	<select class="selectStudentNameForPref" size="3" ng-model="spCtrl.selectedStudent" ng-options="item.name for item in spCtrl.stuff" ng-change="spCtrl.populateStudentPrefs()">
+	<select class="selectStudentNameForPref" size="3" ng-model="spCtrl.selectedStudent" ng-options="student.id for student in spCtrl.students" ng-change="spCtrl.populateStudentPrefs()">
 		<option value="">Select Student</option>
 	</select>
 	</form>
