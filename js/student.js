@@ -35,19 +35,9 @@ var app = angular.module('student', ['ui.bootstrap']);
             var ctrl = this;
             ctrl.stuff = [];
 
-
-
-            $http({
-              method: 'GET',
-              url: 'http://cs6310.duckdns.org:5001/courses',
-              headers: {'Content-Type': undefined}
-            }).success(function(data){
+            $http.get('http://cs6310.duckdns.org:5001/courses').success(function(data){
               ctrl.stuff = data;
             });
-
-      // $http.get('/http://cs6310.duckdns.org:5001/courses').success(function(data){
-      //   ctrl.stuff = data;
-      // });
     }],
     controllerAs: 'rcCtrl'
   };
