@@ -1,5 +1,5 @@
 
-var app = angular.module('student', []);
+var app = angular.module('student', ['ui.bootstrap']);
     	//app.controller('',);
 
 
@@ -34,13 +34,14 @@ var app = angular.module('student', []);
           controller: ['$http', function($http){
             var ctrl = this;
             ctrl.stuff = [];
-            $http.get('/testjson/test.json').success(function(data){
+
+            $http.get('http://cs6310.duckdns.org:5001/courses').success(function(data){
               ctrl.stuff = data;
             });
-          }],
-          controllerAs: 'rcCtrl'
-        };
-      });
+    }],
+    controllerAs: 'rcCtrl'
+  };
+});
 
       app.directive('historicalData', function(){
         return{
@@ -49,6 +50,7 @@ var app = angular.module('student', []);
           controller: ['$http', function($http){
             var tabClasses;
             var ctrl = this;
+            ctrl.isCollapsed = true;
             function initTabs() {
               tabClasses = ["",""];
             }
@@ -65,9 +67,52 @@ var app = angular.module('student', []);
               initTabs();
               tabClasses[tabNum] = "active";
             };
-
             initTabs();
             ctrl.setActiveTab(1);
+
+            ctrl.ddl = [];
+            $http.get('/testjson/testCourses.json').success(function(data){
+              ctrl.ddl = data;
+            });
+
+            ctrl.populateCourseDemand = function(){
+              console.log(ctrl.selectedCourse.course);
+              //http get request
+            };
+
+            ctrl.menu = [];
+            $http.get('/testjson/testHD.json').success(function(data){
+              ctrl.menu = data;
+            });
+
+
+            ctrl.oneAtATime = true;
+
+            ctrl.groups = [
+            {
+              title: 'Dynamic Group Header - 1',
+              content: 'Dynamic Group Body - 1'
+            },
+            {
+              title: 'Dynamic Group Header - 2',
+              content: 'Dynamic Group Body - 2'
+            }
+            ];
+
+            ctrl.items = ['Item 1', 'Item 2', 'Item 3'];
+
+            ctrl.addItem = function() {
+              var newItemNo = $scope.items.length + 1;
+              $scope.items.push('Item ' + newItemNo);
+            };
+
+            ctrl.status = {
+              isFirstOpen: true,
+              isFirstDisabled: false
+            };
+
+
+
           }],
           controllerAs: 'hdCtrl'
         };
