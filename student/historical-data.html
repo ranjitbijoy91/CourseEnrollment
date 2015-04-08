@@ -5,11 +5,35 @@
 	</ul>
 	<div class="tab-content">
 		<div ng-class="hdCtrl.getTabPaneClass(1)" id="PR">    
-			<a href="">yo</a>
+			
 		</div>       
 
 		<div ng-class="hdCtrl.getTabPaneClass(2)" id="PD">     
-			<a href="">zup</a>
+			<select ng-model="hdCtrl.selectedCourse" ng-options="item.course for item in hdCtrl.ddl" ng-change="hdCtrl.populateCourseDemand()">
+				<option value="">Select Course</option>
+			</select><br/><br/>
+
+		<accordion close-others="hdCtrl.oneAtATime">
+
+			    <accordion-group heading="Static Header, initially expanded" is-open="hdCtrl.status.isFirstOpen" is-disabled="hdCtrl.status.isFirstDisabled">
+			      This content is straight in the template.
+			    </accordion-group>
+			    
+			    <accordion-group heading="Dynamic Body Content">
+			      <p>The body of the accordion group grows to fit the contents</p>
+			        <button class="btn btn-default btn-sm" ng-click="hdCtrl.addItem()">Add Item</button>
+			        <div ng-repeat="item in items">{{hdCtrl.item}}</div>
+			    </accordion-group>
+			    <accordion-group is-open="hdCtrl.status.open">
+			        <accordion-heading>
+			            I can have markup, too! <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': hdCtrl.status.open, 'glyphicon-chevron-right': !hdCtrl.status.open}"></i>
+			        </accordion-heading>
+			        This is just some content to illustrate fancy headings.
+			    </accordion-group>
+
+			  </accordion>
+
+
 		</div>
 	</div>
 </div>
