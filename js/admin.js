@@ -37,8 +37,13 @@ var app = angular.module('admin', []);
             $http.get('http://cs6310.duckdns.org:5001/students').success(function(data){
               ctrl.students = data;
             });
+
+            ctrl.studentData = [];
             ctrl.populateStudentPrefs = function(){
-              console.log(ctrl.selectedStudent.name);
+              console.log(ctrl.selectedStudent.id);
+              $http.get('http://cs6310.duckdns.org:5001/students/'+ctrl.selectedStudent.id).success(function(data){
+              ctrl.studentData = data;
+              });
               //http get request for testData below
             };
 
