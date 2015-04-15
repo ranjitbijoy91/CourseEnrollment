@@ -19,7 +19,7 @@ var app = angular.module('student', ['ui.bootstrap']);
          controller: ['$http', function($http){
           var ctrl = this;
           ctrl.stuff = [];
-          $http.get('/testjson/test.json').success(function(data){
+          $http.get('http://cs6311.duckdns.org:5002/courses/student/53042193').success(function(data){
             ctrl.stuff = data;
           });
         }],

@@ -1,22 +1,19 @@
 <div>
 	<form action="" method="get" accept-charset="utf-8">
-		<select class="in-line">
+		<select class="in-line" ng-model="numMaxClasses">
 			<option value="1">1</option>
 			<option value="2">2</option>
 			<option value="3" selected>3</option>
-		</select><h5 class="in-line">Maximum Courses Allowed Per Semester</h5><br/><br/>
-		<select class="in-line">
-			<option value="1">1</option>
+		</select><h5 class="in-line">Maximum Courses Allowed Per Semester</h5><br/>
+		<select class="in-line" ng-model="numTerms">
+			<option value="1" selected>1</option>
 			<option value="2">2</option>
 			<option value="3">3</option>
 			<option value="4">4</option>
 			<option value="5">5</option>
 			<option value="6">6</option>
 			<option value="7">7</option>
-			<option value="8">8</option>
-			<option value="9">9</option>
-			<option value="10" selected>10</option>
-		</select><h5 class="in-line">Number of Semesters to Simulate</h5><br/><br/>
+		</select><h5 class="in-line">Number of Semesters to Simulate</h5><br/>
 		<br/>
 		<input type="submit"></input>
 	</form>

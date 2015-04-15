@@ -1,20 +1,23 @@
 <div>
 	<h4>Enter your class preferences:</h4>
 	<form name="class-preferences-form" >
-		<div class="ddl" ng-repeat="person in cpCtrl.stuff">
-			{{$index+1+"."}}
+		<div class="ddl">
+			{{"1."}}
 			<select ng-model="selectedPreference" ng-options="item.name for item in cpCtrl.stuff">
-				<option value="">Select Account</option>
+				<option value="">Select Class</option>
+			</select><br/><br/>
+			{{"2."}}
+			<select ng-model="selectedPreference" ng-options="item.name for item in cpCtrl.stuff">
+				<option value="">Select Class</option>
+			</select><br/><br/>
+			{{"3."}}
+			<select ng-model="selectedPreference" ng-options="item.name for item in cpCtrl.stuff">
+				<option value="">Select Class</option>
 			</select>
-			<button ng-show="true">Delete</button>
-			<button ng-show="true">Class Demand</button>
 			<br/><br/>
 		</div>
 		<div>
-			<button ng-show="true">Add Class Preference</button>
-			<br/><br/>
 			<input type="submit" ng-show="true" value="Submit"></input>
-			<button ng-show="true">Clear</button>
 		</div>	
 	</form>
 	
