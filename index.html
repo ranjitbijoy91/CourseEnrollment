@@ -15,7 +15,7 @@
           $scope.submit = function() {
             if($scope.username ==  'admin' && $scope.password == 'adminpassword'){
                 $cookieStore.put("id", "");
-                $window.location.href = '/student.html';
+                $window.location.href = '/admin.html';
                 $scope.error=false;
             }
             else if ($scope.username) {
