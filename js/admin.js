@@ -18,10 +18,20 @@ var app = angular.module('admin', []);
          templateUrl: 'admin/change-settings.html',
          controller: ['$http', function($http){
           var ctrl = this;
-          ctrl.stuff = [];
-          $http.get('/testjson/test.json').success(function(data){
-            ctrl.stuff = data;
-          });
+          ctrl.stuff = [];          
+          ctrl.numMaxClasses = 3;
+          ctrl.numTerms = 1;
+          console.log(ctrl.numTerms.toString());
+          ctrl.submit = function(){
+            console.log('yo1');
+            $http.post('http://cs6311.duckdns.org:5002/simulations', {"numTerms": ctrl.numTerms.toString(),"numMaxClasses": ctrl.numMaxClasses.toString()}).
+              success(function() {
+                ctrl.alert = "Settings have successfully changed.";
+            }).
+              error(function(headers) {
+                ctrl.alert = headers.message;
+              });
+          };
         }],
         controllerAs: 'csCtrl'
       };
