@@ -65,13 +65,14 @@ var app = angular.module('student', ['ui.bootstrap', 'ngCookies']);
         return{
           restrict: 'E',
           templateUrl: 'student/recommended-courses.html',
-          controller: ['$http', function($http){
+          controller: ['$http', '$cookieStore', function($http, $cookieStore){
             var ctrl = this;
-            ctrl.stuff = [];
-
-            $http.get('http://cs6310.duckdns.org:5001/courses').success(function(data){
-              ctrl.stuff = data;
-            });
+            ctrl.studentId = $cookieStore.get('id');
+            ctrl.classes = [];
+          $http.get('http://cs6311.duckdns.org:5002/simulations/student/'+ctrl.studentId).success(function(data){
+            ctrl.classes = data;
+            console.log(ctrl.classes);
+          });
     }],
     controllerAs: 'rcCtrl'
   };
