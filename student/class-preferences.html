@@ -1,24 +1,25 @@
 <div>
 	<h4>Enter your class preferences:</h4>
-	<form name="class-preferences-form" >
+
 		<div class="ddl">
 			{{"1."}}
-			<select ng-model="selectedPreference" ng-options="item.name for item in cpCtrl.stuff">
+			<select ng-model="cpCtrl.selectedPreference1" ng-options="item.name for item in cpCtrl.classes">
 				<option value="">Select Class</option>
 			</select><br/><br/>
 			{{"2."}}
-			<select ng-model="selectedPreference" ng-options="item.name for item in cpCtrl.stuff">
+			<select ng-model="cpCtrl.selectedPreference2" ng-options="item.name for item in cpCtrl.classes">
 				<option value="">Select Class</option>
 			</select><br/><br/>
 			{{"3."}}
-			<select ng-model="selectedPreference" ng-options="item.name for item in cpCtrl.stuff">
+			<select ng-model="cpCtrl.selectedPreference3" ng-options="item.name for item in cpCtrl.classes">
 				<option value="">Select Class</option>
 			</select>
-			<br/><br/>
+			<br/>
 		</div>
 		<div>
-			<input type="submit" ng-show="true" value="Submit"></input>
+			<h5 ng-bind="cpCtrl.alert" style="color:red"></h5>
+			<button ng-click="cpCtrl.submit()">Submit</button>
 		</div>	
-	</form>
+
 	
 </div>

@@ -20,7 +20,7 @@ var app = angular.module('admin', []);
           var ctrl = this;
           ctrl.stuff = [];          
           ctrl.numMaxClasses = 3;
-          ctrl.numTerms = 1;
+          ctrl.numTerms = 5;
           console.log(ctrl.numTerms.toString());
           ctrl.submit = function(){
             console.log('yo1');

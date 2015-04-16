@@ -1,5 +1,5 @@
 
-var app = angular.module('student', ['ui.bootstrap']);
+var app = angular.module('student', ['ui.bootstrap', 'ngCookies']);
     	//app.controller('',);
 
 
@@ -16,12 +16,46 @@ var app = angular.module('student', ['ui.bootstrap']);
         return{
          restrict: 'E',
          templateUrl: 'student/class-preferences.html',
-         controller: ['$http', function($http){
+         controller: ['$http', '$cookieStore', function($http, $cookieStore){
           var ctrl = this;
-          ctrl.stuff = [];
-          $http.get('http://cs6311.duckdns.org:5002/courses/student/53042193').success(function(data){
-            ctrl.stuff = data;
+          ctrl.studentId = $cookieStore.get('id');
+          ctrl.classes = [];
+          $http.get('http://cs6311.duckdns.org:5002/courses/student/'+ctrl.studentId).success(function(data){
+            ctrl.classes = data;
           });
+          ctrl.submit = function(){
+            ctrl.alert = "";
+            if(ctrl.undefinedCheck() || ctrl.uniquePreferences()){
+              console.log('valid');
+            }else{
+              console.log('invalid');
+            }
+
+          };
+          ctrl.uniquePreferences = function(){
+            if((ctrl.selectedPreference1!=ctrl.selectedPreference2)&&(ctrl.selectedPreference1!=ctrl.selectedPreference3)&&(ctrl.selectedPreference2!=ctrl.selectedPreference3)){
+              return true;
+            }
+            ctrl.alert = "ERROR: Each class can only be selected once.";
+            return false;
+          };
+          ctrl.undefinedCheck = function(){
+            var count = 0;
+            if(ctrl.selectedPreference1==undefined){
+              count++;
+            }
+            if(ctrl.selectedPreference2==undefined){
+              count++;
+            }
+            if(ctrl.selectedPreference3==undefined){
+              count++;
+            }
+            if(count == 3){
+              ctrl.alert = "ERROR: You must select at least 1 class preference.";
+            }
+            return (count>=2);
+          };
+
         }],
         controllerAs: 'cpCtrl'
       };
