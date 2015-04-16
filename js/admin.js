@@ -101,6 +101,15 @@ app.directive('recommendationHistory', function(){
       var ctrl = this;
       ctrl.recs = [];
       ctrl.dates = [];
+      $http.get('http://cs6311.duckdns.org:5002/simulations').
+              success(function(data) {
+                ctrl.dates = data;
+            }).
+              error(function(headers) {
+                
+              });
+
+
       $http.get('/testjson/testRec.json').success(function(data){
         ctrl.recs = data;
       });

@@ -1,5 +1,5 @@
 <div>
-	<select class="selectStudentNameForPref" size="5" ng-model="rhCtrl.selectedDate" ng-options="item.name for item in rhCtrl.dates" ng-change="rhCtrl.populateRecs()">
+	<select class="selectStudentNameForPref" size="5" ng-model="rhCtrl.selectedDate" ng-options="item.timestamp | date:'MMM d, y @ h:mm:ss a' for item in rhCtrl.dates" ng-change="rhCtrl.populateRecs()">
 		<option value="">Select Date</option>
 	</select>
 </div>
