@@ -9,14 +9,21 @@
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.9/angular-cookies.js"></script>
     <script>
       angular.module('submit', ['ngCookies'])
-      .controller('LoginController', ['$scope', '$http', '$cookieStore', '$window', function($scope, $http, $cookieStore, $window) {
+      .controller('LoginController', ['$scope', '$http', '$cookieStore', '$window', '$timeout', function($scope, $http, $cookieStore, $window, $timeout) {
           $scope.list = [];
           $scope.error=false;
+          $timeout(function(){this.cookieId = $cookieStore.get('id');}, 1000);
+          
+          if(this.cookieId == "admin"){
+            $window.location.href = '/admin.html';
+          }else if(angular.isNumber(this.cookieId)){
+            $window.location.href = '/student.html';
+          }
           $scope.submit = function() {
             if($scope.username ==  'admin' && $scope.password == 'adminpassword'){
-                $cookieStore.put("id", "");
-                $window.location.href = '/admin.html';
+                $cookieStore.put("id", "admin");                
                 $scope.error=false;
+                $window.location.href = '/admin.html';
             }
             else if ($scope.username) {
               $http.post('http://cs6311.duckdns.org:5002/students/login', {"id": $scope.username,"password":$scope.password}).

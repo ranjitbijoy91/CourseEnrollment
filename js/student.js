@@ -3,7 +3,7 @@ var app = angular.module('student', ['ui.bootstrap', 'ngCookies']);
     	//app.controller('',);
 
 
-    	app.controller('StudentPanelController', function(){
+    	app.controller('StudentPanelController', function($cookieStore){
         this.tab = 0;
         this.setTab=function(tab){
          this.tab = tab;
@@ -11,14 +11,23 @@ var app = angular.module('student', ['ui.bootstrap', 'ngCookies']);
        this.isSelected = function(tab){
          return this.tab === tab;
        };
+       this.clearCookie = function(){
+        $cookieStore.put("id", "");
+       };
      });
     	app.directive('classPreferences', function(){
         return{
          restrict: 'E',
          templateUrl: 'student/class-preferences.html',
-         controller: ['$http', '$cookieStore', function($http, $cookieStore){
+         controller: ['$http', '$cookieStore', '$window','$timeout', function($http, $cookieStore, $window,$timeout){
           var ctrl = this;
-          ctrl.studentId = $cookieStore.get('id');
+          ctrl.studentId = '0';
+          $timeout(function(){ctrl.studentId = $cookieStore.get('id');}, 1000);
+          if(ctrl.studentId == ""){
+            $window.location.href = '/index.html';
+          }else if(ctrl.studentId == "admin"){
+            $window.location.href = '/admin.html';
+          }
           ctrl.classes = [];
           $http.get('http://cs6311.duckdns.org:5002/courses/student/'+ctrl.studentId).success(function(data){
             ctrl.classes = data;

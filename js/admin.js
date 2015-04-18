@@ -1,5 +1,5 @@
 
-var app = angular.module('admin', []);
+var app = angular.module('admin', ['ngCookies']);
     	//app.controller('',);
 
 
@@ -11,13 +11,23 @@ var app = angular.module('admin', []);
        this.isSelected = function(tab){
          return this.tab === tab;
        };
+       this.clearCookie = function(){
+        $cookieStore.put("id", "");
+       };
      });
     	app.directive('changeSettings', function(){
         return{
          restrict: 'E',
          templateUrl: 'admin/change-settings.html',
-         controller: ['$http', function($http){
+         controller: ['$http','$cookieStore', '$window', '$timeout', function($http, $cookieStore, $window, $timeout){
           var ctrl = this;
+          $timeout(function(){ctrl.cookieId = $cookieStore.get('id');}, 1000);
+          
+          if(ctrl.cookieId == ""){
+            $window.location.href = '/index.html';
+          }else if(angular.isNumber(this.cookieId)){
+            $window.location.href = '/student.html';
+          }
           ctrl.stuff = [];          
           ctrl.numMaxClasses = 3;
           ctrl.numTerms = 5;
