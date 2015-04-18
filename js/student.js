@@ -71,7 +71,6 @@ var app = angular.module('student', ['ui.bootstrap', 'ngCookies']);
             ctrl.classes = [];
           $http.get('http://cs6311.duckdns.org:5002/simulations/student/'+ctrl.studentId).success(function(data){
             ctrl.classes = data;
-            console.log(ctrl.classes);
           });
     }],
     controllerAs: 'rcCtrl'
@@ -82,9 +81,16 @@ var app = angular.module('student', ['ui.bootstrap', 'ngCookies']);
         return{
           restrict: 'E',
           templateUrl: 'student/historical-data.html',
-          controller: ['$http', function($http){
+          controller: ['$http', '$cookieStore', function($http, $cookieStore){
             var tabClasses;
             var ctrl = this;
+            ctrl.studentId = $cookieStore.get('id');
+            ctrl.recommendations = [];
+          $http.get('http://cs6311.duckdns.org:5002/studentRecommendation/'+ctrl.studentId).success(function(data){
+            ctrl.recommendations = data;
+            console.log(ctrl.recommendations);
+          });
+
             ctrl.isCollapsed = true;
             function initTabs() {
               tabClasses = ["",""];
@@ -110,23 +116,10 @@ var app = angular.module('student', ['ui.bootstrap', 'ngCookies']);
               ctrl.ddl = data;
             });
 
-            ctrl.populateCourseDemand = function(){
-              console.log(ctrl.selectedCourse.course);
-              //http get request
-            };
-
-            ctrl.groups = [
-            {
-              title: "Dynamic Group Header - 1",
-              items: [{"item-title": "item 1"}, {"item-title": "item 2"}]
-            },
-            {
-              title: "Dynamic Group Header - 2",
-              items: [{"item-title": "item 3"}, {"item-title": "item 4"}]
-            }
-            ];
-
-
+            // ctrl.populateCourseDemand = function(){
+            //   console.log(ctrl.selectedCourse.course);
+            //   //http get request
+            // };
             ctrl.menu = [];
             $http.get('/testjson/testH.json').success(function(data){
               ctrl.menu = data;

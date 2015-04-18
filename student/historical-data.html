@@ -6,8 +6,16 @@
 	<div class="tab-content">
 		<div ng-class="hdCtrl.getTabPaneClass(1)" id="PR">    
 			<accordion>
-			<accordion-group heading="{{item.date}}" ng-repeat="item in hdCtrl.menu">
-				{{item.data}}
+				<accordion-group heading="{{$index+1}}" ng-repeat="item in hdCtrl.recommendations">
+				<div class="ddl" ng-repeat="recommendation in item.termRecommendations">
+					{{recommendation.term.termSeason+" "+recommendation.term.year+": "}}
+					<div ng-if="recommendation.courses.length > 0" ng-repeat="course in recommendation.courses">
+						{{($index+1)+". " +course.id+": "+course.name}}
+					</div>
+					<div ng-if="recommendation.courses.length == 0">
+						{{"Semester Off"}}
+					</div><br/>
+				</div>
 			</accordion-group>   
 		</div>       
 
@@ -17,7 +25,7 @@
 			</select><br/><br/>
 
 			<accordion>
-			<accordion-group heading="{{item.date}}" ng-repeat="item in hdCtrl.menu">
+				<accordion-group heading="{{item.date}}" ng-repeat="item in hdCtrl.menu">
 				{{item.data}}
 			</accordion-group>   
 		</accordion>
