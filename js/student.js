@@ -22,7 +22,6 @@ var app = angular.module('student', ['ui.bootstrap', 'ngCookies']);
           ctrl.classes = [];
           $http.get('http://cs6311.duckdns.org:5002/courses/student/'+ctrl.studentId).success(function(data){
             ctrl.classes = data;
-            console.log(ctrl.classes);
           });
 
           ctrl.jsonPacket = function(){
@@ -53,9 +52,6 @@ var app = angular.module('student', ['ui.bootstrap', 'ngCookies']);
 
           ctrl.submit = function(){
             ctrl.alert = "";
-            console.log("ctrl.selectedPreference1: " + ctrl.selectedPreference1);
-            console.log("ctrl.selectedPreference2: " + ctrl.selectedPreference2);
-            console.log("ctrl.selectedPreference3: " + ctrl.selectedPreference3);
             if(ctrl.undefinedCheck() && ctrl.uniquePreferences()){
               $http.post('http://cs6311.duckdns.org:5002/studentPreferences', ctrl.jsonPacket()).
               success(function() {
