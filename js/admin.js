@@ -43,6 +43,7 @@ var app = angular.module('admin', []);
           controller: ['$http', function($http){
             var ctrl = this;
             ctrl.reverse = false;
+            ctrl.alert = "Retrieving student preference history...";
             ctrl.prefs = [];
             $http.get('http://cs6311.duckdns.org:5002/studentPreferences').success(function(data){
               ctrl.prefs = data;
@@ -55,7 +56,10 @@ var app = angular.module('admin', []);
                   }
                 }
               }
-
+              ctrl.alert = "Successfully retrieved student preference history.";
+            }).
+            error(function(headers) {
+              ctrl.alert = "SERVER ERROR: Failed to retrieve student preference history.";
             });
             ctrl.objContains = function(a,b){
               for(var key in a){
@@ -103,11 +107,13 @@ app.directive('recommendationHistory', function(){
     controller: ['$http', function($http){
       var ctrl = this;
       ctrl.rh = [];
+      ctrl.unlockedAlert = false;
       ctrl.alert = "Retrieving recommendation history...";
       $http.get('http://cs6311.duckdns.org:5002/simulations').
       success(function(data) {
         ctrl.rh = data;
         ctrl.alert = "Successfully retrieved recommendation history.";
+        ctrl.unlockedAlert = true;
       }).
       error(function(headers) {
         ctrl.alert = "SERVER ERROR: Failed to retrieve recommendation history.";
@@ -123,10 +129,12 @@ app.directive('recommendationHistory', function(){
 
       ctrl.refresh = function(){
         ctrl.alert = "Retrieving recommendation history...";
+        ctrl.unlockedAlert = false;
         $http.get('http://cs6311.duckdns.org:5002/simulations').
         success(function(data) {
           ctrl.rh = data;
           ctrl.alert = "Successfully retrieved recommendation history.";
+          ctrl.unlockedAlert = true;
         }).
         error(function(headers) {
           ctrl.alert = "SERVER ERROR: Failed to retrieve recommendation history.";
@@ -137,15 +145,21 @@ app.directive('recommendationHistory', function(){
       ctrl.date = [];
       ctrl.student = [];
       ctrl.filter = function(){
-        for(var key in ctrl.rh){
-          if (ctrl.rh.hasOwnProperty(key)) {
-            var current = ctrl.rh[key];
-            if(current.timestamp == ctrl.selectedDate.timestamp){
-              for(var key in current.studentRecommendations){
-                if (current.studentRecommendations.hasOwnProperty(key)) {
-                  var currentRec = current.studentRecommendations[key];
-                  if(currentRec.student.id == ctrl.selectedStudent.id){
-                    ctrl.termRecommendations = currentRec.termRecommendations;
+        if(ctrl.unlockedAlert && ctrl.selectedDate == undefined){
+          ctrl.alert = "Please select a date."; 
+        }else if(ctrl.unlockedAlert && ctrl.selectedStudent == undefined){
+          ctrl.alert = "Please select a student."; 
+        }else if (ctrl.unlockedAlert){
+          for(var key in ctrl.rh){
+            if (ctrl.rh.hasOwnProperty(key)) {
+              var current = ctrl.rh[key];
+              if(current.timestamp == ctrl.selectedDate.timestamp){
+                for(var key in current.studentRecommendations){
+                  if (current.studentRecommendations.hasOwnProperty(key)) {
+                    var currentRec = current.studentRecommendations[key];
+                    if(currentRec.student.id == ctrl.selectedStudent.id){
+                      ctrl.termRecommendations = currentRec.termRecommendations;
+                    }
                   }
                 }
               }
