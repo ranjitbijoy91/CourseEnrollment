@@ -79,7 +79,6 @@ var app = angular.module('admin', []);
                 if (ctrl.prefs.hasOwnProperty(key)) {
                   var pref = ctrl.prefs[key];
                   if(pref.student.id == ctrl.selectedPref.id){
-                    console.log(pref.student.id);
                     ctrl.studentData.push({"datetime": pref.timestamp, "prefs" : pref.student.enrollments});
                   }
                 }
