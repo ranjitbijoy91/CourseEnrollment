@@ -20,9 +20,13 @@ var app = angular.module('student', ['ui.bootstrap', 'ngCookies']);
           var ctrl = this;
           ctrl.studentId = $cookieStore.get('id');
           ctrl.classes = [];
+          ctrl.alert = "Retrieving available courses...";
           $http.get('http://cs6311.duckdns.org:5002/courses/student/'+ctrl.studentId).success(function(data){
             ctrl.classes = data;
-          });
+            ctrl.alert = "Available courses retrieved.";
+          }).error(function(headers) {
+                ctrl.alert = "SERVER ERROR: Failed to retrieve courses.";
+              });
 
           ctrl.jsonPacket = function(){
             var rank = 3;
