@@ -1,22 +1,24 @@
 <div>
-	<form action="" method="get" accept-charset="utf-8">
-	<input type="search" name="studentSearch"></input>
-	<input type="submit" value="Search"></input><br/><br/>
-	<select class="selectStudentNameForPref" size="5" ng-model="spCtrl.selectedStudent" ng-options="student.id for student in spCtrl.students" ng-change="spCtrl.populateStudentPrefs()">
+	<select class="selectStudentNameForPref" size="5" ng-model="spCtrl.selectedPref" ng-options="item.id for item in spCtrl.uniqueStudents" ng-change="spCtrl.populateStudentPrefs()">
 		<option value="">Select Student</option>
 	</select>
-	</form>
 </div>
 <br/>
 <div>
 	<table class="selectStudentNameForPref" border="1">
     <tr>
-      <th><a href="" ng-click="predicate = 'term.year'; spCtrl.reverse=!spCtrl.reverse">DateTime</a></th>
-      <th><a href="" ng-click="predicate = 'course.name'; spCtrl.reverse=!spCtrl.reverse">Preferences</a></th>
+      <th>DateTime</th>
+      <th>Preferences</th>
     </tr>
-    <tr ng-repeat="entry in spCtrl.studentData.enrollments | orderBy:predicate:spCtrl.reverse">
-      <td>{{entry.term.termSeason+" "+entry.term.year}}</td>
-      <td>{{entry.course.name}}</td>
+    <tr ng-repeat="entry in spCtrl.studentData | orderBy:entry.datetime">
+      <td>{{entry.datetime | date:'MMM d, y @ h:mm:ss a'}}</td>
+      <td>
+        <div class="ddl" ng-repeat="class in entry.prefs">
+          {{class.term.termSeason+" "+class.term.year+": "}}
+          <div>
+            {{class.course.id+": "+class.course.name}}
+          </div><br/>
+        </div></td>
     </tr>
   </table>
 </div>

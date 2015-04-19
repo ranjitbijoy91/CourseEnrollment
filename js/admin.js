@@ -21,16 +21,14 @@ var app = angular.module('admin', []);
           ctrl.stuff = [];          
           ctrl.numMaxClasses = 3;
           ctrl.numTerms = 5;
-          console.log(ctrl.numTerms.toString());
           ctrl.submit = function(){
-            console.log('yo1');
             $http.post('http://cs6311.duckdns.org:5002/simulations', {"numTerms": ctrl.numTerms.toString(),"numMaxClasses": ctrl.numMaxClasses.toString()}).
-              success(function() {
-                ctrl.alert = "Settings have successfully changed.";
+            success(function() {
+              ctrl.alert = "Settings have successfully changed.";
             }).
-              error(function(headers) {
-                ctrl.alert = headers.message;
-              });
+            error(function(headers) {
+              ctrl.alert = headers.message;
+            });
           };
         }],
         controllerAs: 'csCtrl'
@@ -43,18 +41,45 @@ var app = angular.module('admin', []);
           templateUrl: 'admin/student-preferences.html',
           controller: ['$http', function($http){
             var ctrl = this;
-            ctrl.students = [];
-            $http.get('http://cs6310.duckdns.org:5001/students').success(function(data){
-              ctrl.students = data;
-            });
+            ctrl.reverse = false;
+            ctrl.prefs = [];
+            $http.get('http://cs6311.duckdns.org:5002/studentPreferences').success(function(data){
+              ctrl.prefs = data;
+              ctrl.uniqueStudents = [];
+              for(var key in ctrl.prefs){
+                if (ctrl.prefs.hasOwnProperty(key)) {
+                  var pref = ctrl.prefs[key];
+                  if(!ctrl.objContains(ctrl.uniqueStudents, {"id":pref.student.id})){
+                    ctrl.uniqueStudents.push({"id":pref.student.id});  
+                  }
+                }
+              }
 
-            ctrl.studentData = [];
+            });
+            ctrl.objContains = function(a,b){
+              for(var key in a){
+                if (a.hasOwnProperty(key)) {
+                  var current = a[key];
+                  if(current.id == b.id){
+                    return true;
+                  }
+                }
+              }
+            };
+
+            
             ctrl.populateStudentPrefs = function(){
-              console.log(ctrl.selectedStudent.id);
-              $http.get('http://cs6310.duckdns.org:5001/students/'+ctrl.selectedStudent.id).success(function(data){
-              ctrl.studentData = data;
-              });
-              //http get request for testData below
+              ctrl.studentData = [];
+              for(var key in ctrl.prefs){
+                if (ctrl.prefs.hasOwnProperty(key)) {
+                  var pref = ctrl.prefs[key];
+                  if(pref.student.id == ctrl.selectedPref.id){
+                    console.log(pref.student.id);
+                    ctrl.studentData.push({"datetime": pref.timestamp, "prefs" : pref.student.enrollments});
+                  }
+                }
+              }
+
             };
 
 
@@ -70,55 +95,47 @@ var app = angular.module('admin', []);
         };
       });
 
-app.directive('prefsHistory', function(){
-  return{
-    restrict: 'E',
-    templateUrl: 'admin/prefs-history.html',
-    controller: ['$http', function($http){
-      var ctrl = this;
-      ctrl.testData = [];
-      $http.get('/testjson/testPH.json').success(function(data){
-        ctrl.testData = data;
-      });
-      ctrl.semesters = [];
-      $http.get('/testjson/testS.json').success(function(data){
-        ctrl.semesters = data;
-      });
-      ctrl.populateStats = function(){
-        console.log(ctrl.selectedSemester);
-        //change stats table here with http get request 
-      };
-    }],
-    controllerAs: 'phCtrl'
-  };
-});
-
 app.directive('recommendationHistory', function(){
   return{
     restrict: 'E',
     templateUrl: 'admin/recommendation-history.html',
     controller: ['$http', function($http){
       var ctrl = this;
-      ctrl.recs = [];
-      ctrl.dates = [];
+      ctrl.rh = [];
       $http.get('http://cs6311.duckdns.org:5002/simulations').
-              success(function(data) {
-                ctrl.dates = data;
-            }).
-              error(function(headers) {
-                
-              });
+      success(function(data) {
+        ctrl.rh = data;
+      }).
+      error(function(headers) {
 
+      });
+      ctrl.students = [];
+      $http.get('http://cs6311.duckdns.org:5002/students').
+      success(function(data) {
+        ctrl.students = data;
+      }).
+      error(function(headers) {
 
-      $http.get('/testjson/testRec.json').success(function(data){
-        ctrl.recs = data;
       });
-      $http.get('/testjson/testDates.json').success(function(data){
-        ctrl.dates = data;
-      });
-      ctrl.populateRecs = function(){
-        console.log(ctrl.selectedDate);
-        //change rec info here with http get request 
+
+      ctrl.date = [];
+      ctrl.student = [];
+      ctrl.filter = function(){
+        for(var key in ctrl.rh){
+          if (ctrl.rh.hasOwnProperty(key)) {
+            var current = ctrl.rh[key];
+            if(current.timestamp = ctrl.selectedDate.timestamp){
+              for(var key in current.studentRecommendations){
+                if (current.studentRecommendations.hasOwnProperty(key)) {
+                  var currentRec = current.studentRecommendations[key];
+                  if(currentRec.student.id == ctrl.selectedStudent.id){
+                    ctrl.termRecommendations = currentRec.termRecommendations;
+                  }
+                }
+              }
+            }
+          }
+        }
       };
     }],
     controllerAs: 'rhCtrl'
