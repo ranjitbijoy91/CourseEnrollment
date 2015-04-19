@@ -1,7 +1,5 @@
 
 var app = angular.module('student', ['ui.bootstrap', 'ngCookies']);
-    	//app.controller('',);
-
 
     	app.controller('StudentPanelController', function(){
         this.tab = 0;
@@ -12,6 +10,7 @@ var app = angular.module('student', ['ui.bootstrap', 'ngCookies']);
          return this.tab === tab;
        };
      });
+
     	app.directive('classPreferences', function(){
         return{
          restrict: 'E',
@@ -64,10 +63,7 @@ var app = angular.module('student', ['ui.bootstrap', 'ngCookies']);
               error(function(headers) {
                 ctrl.alert = headers.message;
               });
-            }else{
-              console.log('invalid');
             }
-
           };
           ctrl.uniquePreferences = function(){
             if((ctrl.uniquePreferencesCheck(ctrl.selectedPreference1,ctrl.selectedPreference2))&&(ctrl.uniquePreferencesCheck(ctrl.selectedPreference1,ctrl.selectedPreference3))&&(ctrl.uniquePreferencesCheck(ctrl.selectedPreference2,ctrl.selectedPreference3))){
@@ -130,7 +126,6 @@ app.directive('recommendedCourses', function(){
         }).error(function(headers) {
           ctrl.alert = "SERVER ERROR: Failed to retrieve courses.";
         });
-
       };
     }],
     controllerAs: 'rcCtrl'
@@ -161,45 +156,7 @@ app.directive('historicalData', function(){
           ctrl.alert = "SERVER ERROR: Failed to retrieve recommendations.";
         });
       };
-
-      ctrl.isCollapsed = true;
-      function initTabs() {
-        tabClasses = ["",""];
-      }
-
-      ctrl.getTabClass = function (tabNum) {
-        return tabClasses[tabNum];
-      };
-
-      ctrl.getTabPaneClass = function (tabNum) {
-        return "tab-pane " + tabClasses[tabNum];
-      }
-
-      ctrl.setActiveTab = function (tabNum) {
-        initTabs();
-        tabClasses[tabNum] = "active";
-      };
-      initTabs();
-      ctrl.setActiveTab(1);
-
-      ctrl.ddl = [];
-      $http.get('/testjson/testCourses.json').success(function(data){
-        ctrl.ddl = data;
-      });
-
-            // ctrl.populateCourseDemand = function(){
-            //   console.log(ctrl.selectedCourse.course);
-            //   //http get request
-            // };
-            ctrl.menu = [];
-            $http.get('/testjson/testH.json').success(function(data){
-              ctrl.menu = data;
-            });
-          }],
-          controllerAs: 'hdCtrl'
-        };
-      });
-
-
-
-
+    }],
+    controllerAs: 'hdCtrl'
+  };
+});

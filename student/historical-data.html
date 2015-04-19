@@ -3,7 +3,6 @@
 	<h6 ng-bind="hdCtrl.alert" style="color:red"></h6>
 	</div>
 	<div class="selectStudentNameForPref">
-		<div ng-class="hdCtrl.getTabPaneClass(1)" id="PR">    
 			<accordion>
 				<accordion-group heading="{{item.timestamp | date:'MMM d, y @ h:mm:ss a'}}" ng-repeat="item in hdCtrl.recommendations">
 				<div class="ddl" ng-repeat="recommendation in item.termRecommendations">
@@ -16,6 +15,5 @@
 					</div><br/>
 				</div>
 			</accordion-group>   
-		</div>       
-
+		</accordion>       
 </div>
