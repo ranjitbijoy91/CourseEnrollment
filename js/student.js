@@ -25,8 +25,8 @@ var app = angular.module('student', ['ui.bootstrap', 'ngCookies']);
             ctrl.classes = data;
             ctrl.alert = "Available courses retrieved.";
           }).error(function(headers) {
-                ctrl.alert = "SERVER ERROR: Failed to retrieve courses.";
-              });
+            ctrl.alert = "SERVER ERROR: Failed to retrieve courses.";
+          });
 
           ctrl.jsonPacket = function(){
             var rank = 3;
@@ -113,11 +113,25 @@ app.directive('recommendedCourses', function(){
     templateUrl: 'student/recommended-courses.html',
     controller: ['$http', '$cookieStore', function($http, $cookieStore){
       var ctrl = this;
+      ctrl.alert = "Retrieving recommended courses...";
       ctrl.studentId = $cookieStore.get('id');
       ctrl.classes = [];
       $http.get('http://cs6311.duckdns.org:5002/simulations/student/'+ctrl.studentId).success(function(data){
         ctrl.classes = data;
+        ctrl.alert = "Successfully retrieved recommended courses.";
+      }).error(function(headers) {
+        ctrl.alert = "SERVER ERROR: Failed to retrieve courses.";
       });
+      ctrl.refresh = function(){
+        ctrl.alert = "Retrieving recommended courses...";
+        $http.get('http://cs6311.duckdns.org:5002/simulations/student/'+ctrl.studentId).success(function(data){
+          ctrl.classes = data;
+          ctrl.alert = "Successfully retrieved recommended courses.";
+        }).error(function(headers) {
+          ctrl.alert = "SERVER ERROR: Failed to retrieve courses.";
+        });
+
+      };
     }],
     controllerAs: 'rcCtrl'
   };
@@ -130,11 +144,23 @@ app.directive('historicalData', function(){
     controller: ['$http', '$cookieStore', function($http, $cookieStore){
       var tabClasses;
       var ctrl = this;
+      ctrl.alert = "Retrieving past recommendations...";
       ctrl.studentId = $cookieStore.get('id');
       ctrl.recommendations = [];
       $http.get('http://cs6311.duckdns.org:5002/studentRecommendation/'+ctrl.studentId).success(function(data){
         ctrl.recommendations = data;
+        ctrl.alert = "Successfully retrieved past recommendations.";
       });
+
+      ctrl.refresh = function(){
+        ctrl.alert = "Retrieving past recommendations...";
+        $http.get('http://cs6311.duckdns.org:5002/studentRecommendation/'+ctrl.studentId).success(function(data){
+          ctrl.recommendations = data;
+          ctrl.alert = "Successfully retrieved past recommendations.";
+        }).error(function(headers) {
+          ctrl.alert = "SERVER ERROR: Failed to retrieve recommendations.";
+        });
+      };
 
       ctrl.isCollapsed = true;
       function initTabs() {

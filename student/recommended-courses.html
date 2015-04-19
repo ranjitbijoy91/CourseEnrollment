@@ -1,4 +1,8 @@
 <div>
+<div>
+	<button ng-click="rcCtrl.refresh()">Refresh</button>
+	<h6 ng-bind="rcCtrl.alert" style="color:red"></h6>
+	</div>
 <h4>Recommended Courses:</h4>
 	<div class="ddl" ng-repeat="recommendation in rcCtrl.classes.termRecommendations">
 		{{recommendation.term.termSeason+" "+recommendation.term.year+": "}}
