@@ -1,12 +1,8 @@
-<div class="tabbable tabs-left">
-	<ul class="nav nav-tabs">
-		<li ng-class="hdCtrl.getTabClass(1)" ng-click="hdCtrl.setActiveTab(1)"><a href="#PR" data-toggle="tab">Past Recommendations</a></li>
-		<li ng-class="hdCtrl.getTabClass(2)" ng-click="hdCtrl.setActiveTab(2)"><a href="#PD" data-toggle="tab">Past Demand</a></li>
-	</ul>
-	<div class="tab-content">
+
+	<div class="selectStudentNameForPref">
 		<div ng-class="hdCtrl.getTabPaneClass(1)" id="PR">    
 			<accordion>
-				<accordion-group heading="{{$index+1}}" ng-repeat="item in hdCtrl.recommendations">
+				<accordion-group heading="{{item.timestamp | date:'MMM d, y @ h:mm:ss a'}}" ng-repeat="item in hdCtrl.recommendations">
 				<div class="ddl" ng-repeat="recommendation in item.termRecommendations">
 					{{recommendation.term.termSeason+" "+recommendation.term.year+": "}}
 					<div ng-if="recommendation.courses.length > 0" ng-repeat="course in recommendation.courses">
@@ -19,18 +15,4 @@
 			</accordion-group>   
 		</div>       
 
-		<div ng-class="hdCtrl.getTabPaneClass(2)" id="PD">     
-			<select ng-model="hdCtrl.selectedCourse" ng-options="item.course for item in hdCtrl.ddl" ng-change="hdCtrl.populateCourseDemand()">
-				<option value="">Select Course</option>
-			</select><br/><br/>
-
-			<accordion>
-				<accordion-group heading="{{item.date}}" ng-repeat="item in hdCtrl.menu">
-				{{item.data}}
-			</accordion-group>   
-		</accordion>
-		
-
-	</div>
-</div>
 </div>
