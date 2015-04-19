@@ -51,7 +51,7 @@ var app = angular.module('student', ['ui.bootstrap', 'ngCookies']);
           };
 
           ctrl.submit = function(){
-            ctrl.alert = "";
+            ctrl.alert = "Attempting to submit class preferences...";
             if(ctrl.undefinedCheck() && ctrl.uniquePreferences()){
               $http.post('http://cs6311.duckdns.org:5002/studentPreferences', ctrl.jsonPacket()).
               success(function() {
