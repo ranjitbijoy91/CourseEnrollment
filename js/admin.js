@@ -22,6 +22,7 @@ var app = angular.module('admin', []);
           ctrl.numMaxClasses = 3;
           ctrl.numTerms = 5;
           ctrl.submit = function(){
+            ctrl.alert = "Attempting to submit settings...";
             $http.post('http://cs6311.duckdns.org:5002/simulations', {"numTerms": ctrl.numTerms.toString(),"numMaxClasses": ctrl.numMaxClasses.toString()}).
             success(function() {
               ctrl.alert = "Settings have successfully changed.";
