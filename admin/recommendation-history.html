@@ -1,4 +1,9 @@
 <div>
+	<button ng-click="rhCtrl.refresh()">Refresh</button>
+	<h6 ng-bind="rhCtrl.alert" style="color:red"></h6>
+	</div>
+
+<div>
 	<select class="twentyfive" size="5" ng-model="rhCtrl.selectedDate" ng-options="item.timestamp | date:'MMM d, y @ h:mm:ss a' for item in rhCtrl.rh" >
 		<option value="">Select Simulation Date</option>
 	</select>

@@ -103,12 +103,14 @@ app.directive('recommendationHistory', function(){
     controller: ['$http', function($http){
       var ctrl = this;
       ctrl.rh = [];
+      ctrl.alert = "Retrieving recommendation history...";
       $http.get('http://cs6311.duckdns.org:5002/simulations').
       success(function(data) {
         ctrl.rh = data;
+        ctrl.alert = "Successfully retrieved recommendation history.";
       }).
       error(function(headers) {
-
+        ctrl.alert = "SERVER ERROR: Failed to retrieve recommendation history.";
       });
       ctrl.students = [];
       $http.get('http://cs6311.duckdns.org:5002/students').
@@ -116,8 +118,21 @@ app.directive('recommendationHistory', function(){
         ctrl.students = data;
       }).
       error(function(headers) {
-
+        ctrl.alert = "SERVER ERROR: Failed to retrieve recommendation history.";
       });
+
+      ctrl.refresh = function(){
+        ctrl.alert = "Retrieving recommendation history...";
+        $http.get('http://cs6311.duckdns.org:5002/simulations').
+        success(function(data) {
+          ctrl.rh = data;
+          ctrl.alert = "Successfully retrieved recommendation history.";
+        }).
+        error(function(headers) {
+          ctrl.alert = "SERVER ERROR: Failed to retrieve recommendation history.";
+        });
+
+      };
 
       ctrl.date = [];
       ctrl.student = [];
