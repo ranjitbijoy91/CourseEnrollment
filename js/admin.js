@@ -124,7 +124,7 @@ app.directive('recommendationHistory', function(){
         for(var key in ctrl.rh){
           if (ctrl.rh.hasOwnProperty(key)) {
             var current = ctrl.rh[key];
-            if(current.timestamp = ctrl.selectedDate.timestamp){
+            if(current.timestamp == ctrl.selectedDate.timestamp){
               for(var key in current.studentRecommendations){
                 if (current.studentRecommendations.hasOwnProperty(key)) {
                   var currentRec = current.studentRecommendations[key];
