@@ -134,9 +134,11 @@ app.directive('recommendationHistory', function(){
       ctrl.student = [];
       ctrl.filter = function(){
         if(ctrl.unlockedAlert && ctrl.selectedDate == undefined){
-          ctrl.alert = "Please select a date."; 
+          ctrl.alert = "Please select a date.";
+          ctrl.termRecommendations = []; 
         }else if(ctrl.unlockedAlert && ctrl.selectedStudent == undefined){
           ctrl.alert = "Please select a student."; 
+          ctrl.termRecommendations = [];
         }else if (ctrl.unlockedAlert){
           for(var key in ctrl.rh){
             if (ctrl.rh.hasOwnProperty(key)) {
