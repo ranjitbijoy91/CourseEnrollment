@@ -77,7 +77,7 @@ app.directive('studentPreferences', function(){
           if (ctrl.prefs.hasOwnProperty(key)) {
             var pref = ctrl.prefs[key];
             if(pref.student.id == ctrl.selectedPref.id){
-              ctrl.studentData.push({"datetime": pref.timestamp, "prefs" : pref.student.enrollments});
+              ctrl.studentData.push({"datetime": pref.timestamp, "prefs" : pref.classPreferences});
             }
           }
         }

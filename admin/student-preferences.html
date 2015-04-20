@@ -15,7 +15,6 @@
       <td>{{entry.datetime | date:'MMM d, y @ h:mm:ss a'}}</td>
       <td>
         <div class="ddl" ng-repeat="class in entry.prefs">
-          {{class.term.termSeason+" "+class.term.year+": "}}
           <div>
             {{class.course.id+": "+class.course.name}}
           </div><br/>
