@@ -1,18 +1,26 @@
 <div>
-	<select class="selectStudentNameForPref" size="5" ng-model="rhCtrl.selectedDate" ng-options="item.timestamp | date:'MMM d, y @ h:mm:ss a' for item in rhCtrl.dates" ng-change="rhCtrl.populateRecs()">
-		<option value="">Select Date</option>
-	</select>
-</div>
-<br/>
+	<button ng-click="rhCtrl.refresh()">Refresh</button>
+	<h6 ng-bind="rhCtrl.alert" style="color:red"></h6>
+	</div>
+
 <div>
-	<table class="selectStudentNameForPref" border="1">
-		<tr>
-			<th>Recommendation</th>
-			<th>Chance</th>
-		</tr>
-		<tr ng-repeat="entry in rhCtrl.recs">
-			<td>{{entry.rec}}</td>
-			<td>{{entry.chance}}</td>
-		</tr>
-	</table>
+	<select class="twentyfive" size="5" ng-model="rhCtrl.selectedDate" ng-options="item.timestamp | date:'MMM d, y @ h:mm:ss a' for item in rhCtrl.rh" >
+		<option value="">Select Simulation Date</option>
+	</select>
+	<select class="twentyfive" size="5" ng-model="rhCtrl.selectedStudent" ng-options="student.id for student in rhCtrl.students" >
+		<option value="">Select Student</option>
+	</select><br/><br/>
+	<button ng-click="rhCtrl.filter()">Filter</button>
+</div>
+<div>
+<h4>Recommended Courses:</h4>
+	<div class="ddl" ng-repeat="recommendation in rhCtrl.termRecommendations">
+		{{recommendation.term.termSeason+" "+recommendation.term.year+": "}}
+		<div ng-if="recommendation.courses.length > 0" ng-repeat="course in recommendation.courses">
+		{{($index+1)+". " +course.id+": "+course.name}}
+		</div>
+		<div ng-if="recommendation.courses.length == 0">
+		{{"Semester Off"}}
+		</div><br/>
+	</div>
 </div>

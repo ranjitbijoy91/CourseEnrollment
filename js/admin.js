@@ -1,16 +1,5 @@
-
 var app = angular.module('admin', ['ngCookies']);
-    	//app.controller('',);
-
-
     	app.controller('AdminPanelController', function(){
-        this.tab = 0;
-        this.setTab=function(tab){
-         this.tab = tab;
-       };
-       this.isSelected = function(tab){
-         return this.tab === tab;
-       };
        this.clearCookie = function(){
         $cookieStore.put("id", "");
        };
@@ -33,6 +22,7 @@ var app = angular.module('admin', ['ngCookies']);
           ctrl.numTerms = 5;
           console.log(ctrl.numTerms.toString());
           ctrl.submit = function(){
+            ctrl.alert = "Attempting to submit settings...";
             console.log('yo1');
             $http.post('http://cs6311.duckdns.org:5002/simulations', {"numTerms": ctrl.numTerms.toString(),"numMaxClasses": ctrl.numMaxClasses.toString()}).
               success(function() {
@@ -47,59 +37,55 @@ var app = angular.module('admin', ['ngCookies']);
       };
     });
 
-      app.directive('studentPreferences', function(){
-        return{
-          restrict: 'E',
-          templateUrl: 'admin/student-preferences.html',
-          controller: ['$http', function($http){
-            var ctrl = this;
-            ctrl.students = [];
-            $http.get('http://cs6310.duckdns.org:5001/students').success(function(data){
-              ctrl.students = data;
-            });
-
-            ctrl.studentData = [];
-            ctrl.populateStudentPrefs = function(){
-              console.log(ctrl.selectedStudent.id);
-              $http.get('http://cs6310.duckdns.org:5001/students/'+ctrl.selectedStudent.id).success(function(data){
-              ctrl.studentData = data;
-              });
-              //http get request for testData below
-            };
-
-
-            ctrl.head = ["DateTime","Preferences"];
-            ctrl.testData =
-            [{datetime:'2015/03/07 08:23:37', preference:'(CS6310 CS6307)'},
-            {datetime:'2015/03/04 09:23:22', preference:'(CS6310 CS6306)'},
-            {datetime:'2015/03/03 10:01:02', preference:'(CS6310 CS6301)'},
-            {datetime:'2015/03/02 08:24:52', preference:'(CS6310 CS6307)'}];
-
-          }],
-          controllerAs: 'spCtrl'
-        };
-      });
-
-app.directive('prefsHistory', function(){
+app.directive('studentPreferences', function(){
   return{
     restrict: 'E',
-    templateUrl: 'admin/prefs-history.html',
+    templateUrl: 'admin/student-preferences.html',
     controller: ['$http', function($http){
       var ctrl = this;
-      ctrl.testData = [];
-      $http.get('/testjson/testPH.json').success(function(data){
-        ctrl.testData = data;
+      ctrl.reverse = false;
+      ctrl.alert = "Retrieving student preference history...";
+      ctrl.prefs = [];
+      $http.get('http://cs6311.duckdns.org:5002/studentPreferences').success(function(data){
+        ctrl.prefs = data;
+        ctrl.uniqueStudents = [];
+        for(var key in ctrl.prefs){
+          if (ctrl.prefs.hasOwnProperty(key)) {
+            var pref = ctrl.prefs[key];
+            if(!ctrl.objContains(ctrl.uniqueStudents, {"id":pref.student.id})){
+              ctrl.uniqueStudents.push({"id":pref.student.id});  
+            }
+          }
+        }
+        ctrl.alert = "Successfully retrieved student preference history.";
+      }).
+      error(function(headers) {
+        ctrl.alert = "SERVER ERROR: Failed to retrieve student preference history.";
       });
-      ctrl.semesters = [];
-      $http.get('/testjson/testS.json').success(function(data){
-        ctrl.semesters = data;
-      });
-      ctrl.populateStats = function(){
-        console.log(ctrl.selectedSemester);
-        //change stats table here with http get request 
+      ctrl.objContains = function(a,b){
+        for(var key in a){
+          if (a.hasOwnProperty(key)) {
+            var current = a[key];
+            if(current.id == b.id){
+              return true;
+            }
+          }
+        }
+      };
+
+      ctrl.populateStudentPrefs = function(){
+        ctrl.studentData = [];
+        for(var key in ctrl.prefs){
+          if (ctrl.prefs.hasOwnProperty(key)) {
+            var pref = ctrl.prefs[key];
+            if(pref.student.id == ctrl.selectedPref.id){
+              ctrl.studentData.push({"datetime": pref.timestamp, "prefs" : pref.classPreferences});
+            }
+          }
+        }
       };
     }],
-    controllerAs: 'phCtrl'
+    controllerAs: 'spCtrl'
   };
 });
 
@@ -109,26 +95,69 @@ app.directive('recommendationHistory', function(){
     templateUrl: 'admin/recommendation-history.html',
     controller: ['$http', function($http){
       var ctrl = this;
-      ctrl.recs = [];
-      ctrl.dates = [];
+      ctrl.rh = [];
+      ctrl.unlockedAlert = false;
+      ctrl.alert = "Retrieving recommendation history...";
       $http.get('http://cs6311.duckdns.org:5002/simulations').
-              success(function(data) {
-                ctrl.dates = data;
-            }).
-              error(function(headers) {
-                
-              });
-
-
-      $http.get('/testjson/testRec.json').success(function(data){
-        ctrl.recs = data;
+      success(function(data) {
+        ctrl.rh = data;
+        ctrl.alert = "Successfully retrieved recommendation history.";
+        ctrl.unlockedAlert = true;
+      }).
+      error(function(headers) {
+        ctrl.alert = "SERVER ERROR: Failed to retrieve recommendation history.";
       });
-      $http.get('/testjson/testDates.json').success(function(data){
-        ctrl.dates = data;
+      ctrl.students = [];
+      $http.get('http://cs6311.duckdns.org:5002/students').
+      success(function(data) {
+        ctrl.students = data;
+      }).
+      error(function(headers) {
+        ctrl.alert = "SERVER ERROR: Failed to retrieve recommendation history.";
       });
-      ctrl.populateRecs = function(){
-        console.log(ctrl.selectedDate);
-        //change rec info here with http get request 
+
+      ctrl.refresh = function(){
+        ctrl.selectedDate = undefined;
+        ctrl.termRecommendations = [];
+        ctrl.alert = "Retrieving recommendation history...";
+        ctrl.unlockedAlert = false;
+        $http.get('http://cs6311.duckdns.org:5002/simulations').
+        success(function(data) {
+          ctrl.rh = data;
+          ctrl.alert = "Successfully retrieved recommendation history.";
+          ctrl.unlockedAlert = true;
+        }).
+        error(function(headers) {
+          ctrl.alert = "SERVER ERROR: Failed to retrieve recommendation history.";
+        });
+      };
+
+      ctrl.date = [];
+      ctrl.student = [];
+      ctrl.filter = function(){
+        if(ctrl.unlockedAlert && ctrl.selectedDate == undefined){
+          ctrl.alert = "Please select a date.";
+          ctrl.termRecommendations = []; 
+        }else if(ctrl.unlockedAlert && ctrl.selectedStudent == undefined){
+          ctrl.alert = "Please select a student."; 
+          ctrl.termRecommendations = [];
+        }else if (ctrl.unlockedAlert){
+          for(var key in ctrl.rh){
+            if (ctrl.rh.hasOwnProperty(key)) {
+              var current = ctrl.rh[key];
+              if(current.timestamp == ctrl.selectedDate.timestamp){
+                for(var key in current.studentRecommendations){
+                  if (current.studentRecommendations.hasOwnProperty(key)) {
+                    var currentRec = current.studentRecommendations[key];
+                    if(currentRec.student.id == ctrl.selectedStudent.id){
+                      ctrl.termRecommendations = currentRec.termRecommendations;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       };
     }],
     controllerAs: 'rhCtrl'

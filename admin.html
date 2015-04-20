@@ -27,13 +27,10 @@
                         <a ng-click="apc.setTab(0)">Change Settings</a>
                     </li>
                     <li>
-                        <a ng-click="apc.setTab(1)">Student Preferences</a>
+                        <a ng-click="apc.setTab(1)">Student Preference History</a>
                     </li>
                     <li>
-                        <a ng-click="apc.setTab(2)">Preference History</a>
-                    </li>
-                    <li>
-                    <a ng-click="apc.setTab(3)">Recommendation History</a>
+                    <a ng-click="apc.setTab(2)">Recommendation History</a>
                     </li>
                     <li>
                     <a ng-click="spc.clearCookie()" href="/index.html">Logout</a>
@@ -51,10 +48,7 @@
             <div class="vrc" ng-show="apc.isSelected(1)">
                 <student-preferences></student-preferences>
             </div>
-            <div class="hd" ng-show="apc.isSelected(2)">
-                <prefs-history></prefs-history>
-            </div>
-            <div class="rh" ng-show="apc.isSelected(3)">
+            <div class="rh" ng-show="apc.isSelected(2)">
                 <recommendation-history></recommendation-history>
             </div>
         </div>
